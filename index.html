@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ながもちラボ｜暮らしを記録して、ものと時間を大切にする</title>
+<meta name="description" content="ながもちラボは「買う・持つ・使い続ける・整える」をテーマにiPhoneアプリを個人開発している事業体です。すでに持っているものを長く大切に扱えるよう、暮らしの記録を未来のよりよい選択につなげます。">
+<meta name="theme-color" content="#F97316">
+
+<!-- OGP -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="ながもちラボ｜暮らしを記録して、ものと時間を大切にする">
+<meta property="og:description" content="買う・持つ・使い続ける・整えるをテーマにiPhoneアプリを開発しています。">
+<meta property="og:site_name" content="ながもちラボ">
+<meta property="og:url" content="https://nagamochi-lab.com/">
+<link rel="canonical" href="https://nagamochi-lab.com/">
+
+<style>
+  :root{
+    --orange:#F97316;
+    --orange-deep:#EA580C;
+    --orange-soft:#FFF3EA;
+    --ink:#2B2622;
+    --ink-soft:#6B6259;
+    --line:#EFEAE4;
+    --bg:#FFFFFF;
+    --bg-grey:#FAF8F6;
+    --card:#FFFFFF;
+    --radius:20px;
+    --shadow:0 6px 24px rgba(43,38,34,.06);
+    --shadow-hover:0 14px 36px rgba(249,115,22,.16);
+    --max:1080px;
+    --font:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic",system-ui,-apple-system,sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--font);
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    letter-spacing:.01em;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;}
+
+  .wrap{
+    width:100%;
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,.86);
+    backdrop-filter:saturate(160%) blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    height:64px;
+  }
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-weight:800;font-size:19px;letter-spacing:.02em;
+  }
+  .logo .mark{
+    width:30px;height:30px;border-radius:9px;
+    background:linear-gradient(135deg,var(--orange),var(--orange-deep));
+    display:grid;place-items:center;color:#fff;font-size:16px;font-weight:900;
+    box-shadow:0 4px 10px rgba(249,115,22,.35);
+  }
+  .logo small{color:var(--ink-soft);font-weight:600;font-size:12px;letter-spacing:.06em;}
+  nav.menu{display:flex;gap:6px;}
+  nav.menu a{
+    padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600;color:var(--ink-soft);
+    transition:.2s;
+  }
+  nav.menu a:hover{background:var(--orange-soft);color:var(--orange-deep);}
+  .nav-cta{display:none;}
+  @media(min-width:720px){
+    .nav-cta{
+      display:inline-flex;align-items:center;gap:6px;
+      background:var(--orange);color:#fff;font-weight:700;font-size:14px;
+      padding:9px 18px;border-radius:999px;transition:.2s;
+    }
+    .nav-cta:hover{background:var(--orange-deep);transform:translateY(-1px);}
+  }
+  @media(max-width:560px){
+    nav.menu{display:none;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+    background:
+      radial-gradient(900px 420px at 78% -10%, var(--orange-soft) 0%, rgba(255,243,234,0) 70%),
+      linear-gradient(180deg,#fff 0%, var(--bg-grey) 100%);
+    padding:84px 0 72px;
+  }
+  .hero-inner{max-width:760px;}
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:#fff;border:1px solid var(--line);
+    color:var(--orange-deep);font-weight:700;font-size:13px;
+    padding:7px 14px;border-radius:999px;box-shadow:var(--shadow);
+  }
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--orange);}
+  .hero h1{
+    font-size:clamp(30px,6.2vw,52px);
+    line-height:1.35;font-weight:800;margin:22px 0 18px;
+    letter-spacing:.01em;
+  }
+  .hero h1 .accent{
+    background:linear-gradient(transparent 64%, #FFD9BE 64%);
+  }
+  .hero p.sub{
+    font-size:clamp(15px,2.6vw,18px);color:var(--ink-soft);
+    max-width:600px;margin:0 0 32px;
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 26px;border-radius:999px;font-weight:700;font-size:15px;
+    transition:.2s;
+  }
+  .btn-primary{background:var(--orange);color:#fff;box-shadow:0 8px 20px rgba(249,115,22,.28);}
+  .btn-primary:hover{background:var(--orange-deep);transform:translateY(-2px);}
+  .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--orange);color:var(--orange-deep);}
+
+  .hero-stats{
+    display:flex;gap:30px;flex-wrap:wrap;margin-top:46px;
+    padding-top:30px;border-top:1px dashed var(--line);
+  }
+  .hero-stats .stat strong{display:block;font-size:26px;font-weight:800;color:var(--orange-deep);}
+  .hero-stats .stat span{font-size:13px;color:var(--ink-soft);}
+
+  /* ---------- Section common ---------- */
+  section{padding:78px 0;}
+  .section-head{text-align:center;max-width:640px;margin:0 auto 52px;}
+  .eyebrow{
+    font-size:13px;font-weight:800;letter-spacing:.16em;color:var(--orange);
+    text-transform:uppercase;margin-bottom:12px;
+  }
+  .section-head h2{font-size:clamp(24px,4.4vw,34px);font-weight:800;margin:0 0 14px;line-height:1.4;}
+  .section-head p{color:var(--ink-soft);font-size:15px;margin:0;}
+
+  /* ---------- Philosophy ---------- */
+  .philosophy{background:var(--bg-grey);}
+  .philosophy .card-quote{
+    background:#fff;border:1px solid var(--line);border-radius:24px;
+    padding:clamp(32px,5vw,56px);box-shadow:var(--shadow);
+    max-width:820px;margin:0 auto;text-align:center;position:relative;
+  }
+  .philosophy .card-quote::before{
+    content:"“";position:absolute;top:6px;left:26px;
+    font-size:90px;color:var(--orange-soft);font-family:Georgia,serif;line-height:1;
+  }
+  .philosophy .card-quote p{
+    font-size:clamp(18px,3vw,23px);font-weight:700;line-height:2;margin:0;
+    position:relative;
+  }
+  .pillars{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+    max-width:820px;margin:34px auto 0;
+  }
+  .pillar{
+    background:#fff;border:1px solid var(--line);border-radius:16px;
+    padding:20px 12px;text-align:center;
+  }
+  .pillar .ico{font-size:24px;}
+  .pillar b{display:block;margin-top:8px;font-size:15px;}
+  .pillar span{font-size:12px;color:var(--ink-soft);}
+  @media(max-width:620px){
+    .pillars{grid-template-columns:repeat(2,1fr);}
+  }
+
+  /* ---------- Apps ---------- */
+  .apps-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;
+  }
+  .app-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px;box-shadow:var(--shadow);transition:.25s;display:flex;flex-direction:column;
+    position:relative;overflow:hidden;
+  }
+  .app-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:#FBD2B3;}
+  .app-card .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;}
+  .app-icon{
+    width:56px;height:56px;border-radius:15px;flex:0 0 auto;
+    display:grid;place-items:center;font-size:28px;
+    background:var(--orange-soft);border:1px solid #FCE3CF;
+  }
+  .status{
+    font-size:11.5px;font-weight:800;padding:5px 11px;border-radius:999px;white-space:nowrap;
+  }
+  .status.released{background:#E8F7EE;color:#1B8A4B;}
+  .status.dev{background:#FFF1E5;color:var(--orange-deep);}
+  .app-card h3{font-size:20px;margin:0 0 2px;font-weight:800;}
+  .app-card .reading{font-size:12px;color:var(--ink-soft);margin:0 0 12px;letter-spacing:.04em;}
+  .app-card p.desc{font-size:14px;color:var(--ink-soft);margin:0 0 20px;flex:1;}
+  .app-card .foot{margin-top:auto;}
+  .store-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--ink);color:#fff;font-weight:700;font-size:13.5px;
+    padding:11px 18px;border-radius:12px;transition:.2s;
+  }
+  .store-btn:hover{background:#000;transform:translateY(-1px);}
+  .store-btn .apple{font-size:16px;}
+  .foot .soon{font-size:13px;color:var(--ink-soft);font-weight:600;display:inline-flex;align-items:center;gap:7px;}
+  .foot .soon .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+  /* ---------- About / trust ---------- */
+  .about{background:var(--bg-grey);}
+  .about-box{
+    background:#fff;border:1px solid var(--line);border-radius:24px;
+    padding:clamp(28px,4vw,44px);box-shadow:var(--shadow);max-width:760px;margin:0 auto;
+  }
+  .about-box dl{margin:0;display:grid;grid-template-columns:140px 1fr;gap:0;}
+  .about-box dt{
+    font-weight:700;color:var(--ink);padding:16px 0;border-bottom:1px solid var(--line);font-size:14px;
+  }
+  .about-box dd{
+    margin:0;padding:16px 0;border-bottom:1px solid var(--line);color:var(--ink-soft);font-size:14px;
+  }
+  .about-box dl > div:last-child dt,.about-box dl > div:last-child dd{border-bottom:none;}
+  .about-box .row{display:contents;}
+  @media(max-width:520px){
+    .about-box dl{grid-template-columns:1fr;}
+    .about-box dt{padding-bottom:2px;border-bottom:none;}
+    .about-box dd{padding-top:4px;}
+  }
+
+  /* ---------- Footer ---------- */
+  footer{background:#fff;border-top:1px solid var(--line);padding:48px 0 40px;}
+  .foot-grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-start;}
+  .foot-brand .logo{font-size:18px;}
+  .foot-brand p{color:var(--ink-soft);font-size:13px;margin:12px 0 0;max-width:320px;}
+  .foot-links{display:flex;flex-direction:column;gap:10px;font-size:14px;}
+  .foot-links a{color:var(--ink-soft);}
+  .foot-links a:hover{color:var(--orange-deep);}
+  .copy{
+    margin-top:34px;padding-top:22px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;
+    color:var(--ink-soft);font-size:13px;
+  }
+  .copy a{color:var(--orange-deep);font-weight:600;}
+</style>
+</head>
+<body>
+
+<!-- ============ Header ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo">
+      <span class="mark">な</span>
+      <span>ながもちラボ<br><small>nagamochi-lab</small></span>
+    </a>
+    <nav class="menu">
+      <a href="#philosophy">わたしたちの考え</a>
+      <a href="#apps">アプリ一覧</a>
+      <a href="#about">事業概要</a>
+    </nav>
+    <a href="#apps" class="nav-cta">アプリを見る</a>
+  </div>
+</header>
+
+<!-- ============ Hero ============ -->
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap hero-inner">
+    <span class="badge"><span class="dot"></span>暮らしのiPhoneアプリを個人開発</span>
+    <h1>暮らしを記録して、<br><span class="accent">ものと時間を大切にする。</span></h1>
+    <p class="sub">ながもちラボは、<strong>買う・持つ・使い続ける・整える</strong>をテーマに iPhoneアプリを開発しています。すでに持っているものを、もっと長く大切に。</p>
+    <div class="hero-actions">
+      <a href="#apps" class="btn btn-primary">アプリを見る</a>
+      <a href="#philosophy" class="btn btn-ghost">わたしたちの考え</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><strong>5</strong><span>開発中のアプリ</span></div>
+      <div class="stat"><strong>3</strong><span>App Store 公開済み</span></div>
+      <div class="stat"><strong>1つ</strong><span>共通する精神</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Philosophy ============ -->
+<section id="philosophy" class="philosophy">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Our Philosophy</div>
+      <h2>新しく買うこと「だけ」を、<br>促さない。</h2>
+      <p>持っているものに、もう少しだけ目を向ける。それだけで暮らしは少し変わります。</p>
+    </div>
+    <div class="card-quote">
+      <p>すでに持っているもの、家、日用品、習慣。<br>それらを記録し、長く大切に扱えるように。<br>日々の記録を、未来のよりよい選択につなげます。</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar"><div class="ico">🛒</div><b>買う</b><span>選ぶを丁寧に</span></div>
+      <div class="pillar"><div class="ico">📦</div><b>持つ</b><span>持ち物を把握</span></div>
+      <div class="pillar"><div class="ico">🔧</div><b>使い続ける</b><span>長く大切に</span></div>
+      <div class="pillar"><div class="ico">🌿</div><b>整える</b><span>暮らしを整理</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Apps ============ -->
+<section id="apps">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Our Apps</div>
+      <h2>ながもちラボのアプリ</h2>
+      <p>暮らしのテーマごとに、小さなアプリを少しずつ育てています。</p>
+    </div>
+
+    <div class="apps-grid">
+
+      <!-- 1 ながもち -->
+      <article class="app-card">
+        <div class="top">
+          <div class="app-icon">📋</div>
+          <span class="status released">リリース済み</span>
+        </div>
+        <h3>ながもち</h3>
+        <p class="reading">もちもの管理</p>
+        <p class="desc">家じゅうの「もちもの」を一括で管理。家電・家具・服・ガジェット・アウトドア用品などの購入日・価格・使用年数・買い替え履歴を記録し、ものを長く大切に使うことを支援します。</p>
+        <div class="foot">
+          <a class="store-btn" href="https://apps.apple.com/ja/app/%E3%81%AA%E3%81%8C%E3%82%82%E3%81%A1/id6769751136" target="_blank" rel="noopener">
+            <span class="apple"></span>App Store で見る
+          </a>
+        </div>
+      </article>
+
+      <!-- 2 いえもち -->
+      <article class="app-card">
+        <div class="top">
+          <div class="app-icon">🏠</div>
+          <span class="status dev">開発中</span>
+        </div>
+        <h3>家持ち（いえもち）</h3>
+        <p class="reading">おうちの点検ノート</p>
+        <p class="desc">家そのものを長く安心して保つためのアプリ。掃除・点検・修繕・住宅設備のメンテナンス履歴を家族で記録・共有。家を買って終わりではなく、住まいを継続的に整えるための管理ノートです。</p>
+        <div class="foot">
+          <span class="soon"><span class="dot"></span>近日 App Store 公開予定</span>
+        </div>
+      </article>
+
+      <!-- 3 いつモノ -->
+      <article class="app-card">
+        <div class="top">
+          <div class="app-icon">🧾</div>
+          <span class="status released">リリース済み</span>
+        </div>
+        <h3>いつモノ</h3>
+        <p class="reading">日用品の価格記録</p>
+        <p class="desc">いつも買う日用品・消耗品の価格と購入タイミングを記録。ガソリン・米・洗剤・コーヒー豆など繰り返し買うものの価格・単価・購入周期を見える化し、物価高や買い時を実感できます。</p>
+        <div class="foot">
+          <a class="store-btn" href="https://apps.apple.com/jp/app/%E3%81%84%E3%81%A4%E3%83%A2%E3%83%8E/id6780535646" target="_blank" rel="noopener">
+            <span class="apple"></span>App Store で見る
+          </a>
+        </div>
+      </article>
+
+      <!-- 4 ビール貯金 -->
+      <article class="app-card">
+        <div class="top">
+          <div class="app-icon">🍺</div>
+          <span class="status released">リリース済み</span>
+        </div>
+        <h3>ビール貯金</h3>
+        <p class="reading">晩酌おやすみ記録</p>
+        <p class="desc">晩酌を休んだ分を、貯金・カロリーオフ・塩分オフとして見える化。禁酒を強制するのではなく、休めた夜をポジティブな成果として表示します。</p>
+        <div class="foot">
+          <a class="store-btn" href="https://apps.apple.com/jp/app/%E3%83%93%E3%83%BC%E3%83%AB%E8%B2%AF%E9%87%91/id6776289696" target="_blank" rel="noopener">
+            <span class="apple"></span>App Store で見る
+          </a>
+        </div>
+      </article>
+
+      <!-- 5 デブログ -->
+      <article class="app-card">
+        <div class="top">
+          <div class="app-icon">📝</div>
+          <span class="status dev">開発中</span>
+        </div>
+        <h3>デブログ / Devlog</h3>
+        <p class="reading">個人開発の記録</p>
+        <p class="desc">個人開発者向けの開発記録アプリ。アプリごとの日々の進捗・バージョン・KPI・売上・開発系サブスク費用などを記録し、個人開発を続けやすくします。</p>
+        <div class="foot">
+          <span class="soon"><span class="dot"></span>近日 App Store 公開予定</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ About ============ -->
+<section id="about" class="about">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">About</div>
+      <h2>事業概要</h2>
+      <p>暮らしのアプリを個人で企画・開発・運営しています。</p>
+    </div>
+    <div class="about-box">
+      <dl>
+        <div class="row"><dt>屋号</dt><dd>ながもちラボ（nagamochi-lab）</dd></div>
+        <div class="row"><dt>ドメイン</dt><dd><a href="https://nagamochi-lab.com" style="color:var(--orange-deep);font-weight:600">nagamochi-lab.com</a></dd></div>
+        <div class="row"><dt>事業内容</dt><dd>暮らしの中の「買う・持つ・使い続ける・整える」をテーマにした iPhone アプリの個人開発・運営</dd></div>
+        <div class="row"><dt>精神</dt><dd>暮らしを記録して、ものと時間を大切にする。新しく買うことだけを促すのではなく、すでに持っているものを長く大切に扱えるように。</dd></div>
+        <div class="row"><dt>プラットフォーム</dt><dd>iOS（App Store）</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Footer ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#top" class="logo">
+          <span class="mark">な</span>
+          <span>ながもちラボ<br><small>nagamochi-lab</small></span>
+        </a>
+        <p>買う・持つ・使い続ける・整える。暮らしを記録して、ものと時間を大切にする iPhone アプリをつくっています。</p>
+      </div>
+      <div class="foot-links">
+        <a href="#philosophy">わたしたちの考え</a>
+        <a href="#apps">アプリ一覧</a>
+        <a href="#about">事業概要</a>
+        <a href="https://nagamochi-lab.com">nagamochi-lab.com</a>
+      </div>
+    </div>
+    <div class="copy">
+      <span>© 2025 ながもちラボ（nagamochi-lab）</span>
+      <span><a href="https://nagamochi-lab.com">nagamochi-lab.com</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
