@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ながもちラボ｜暮らしを記録して、ものと時間を大切にする</title>
-<meta name="description" content="ながもちラボは「買う・持つ・使い続ける・整える」をテーマに、暮らしのiPhoneアプリをつくる小さなラボです。もちもの管理「ながもち」、日用品の価格記録「いつモノ」を開発しています。">
+<meta name="description" content="ながもちラボは「買う・持つ・使い続ける・整える」をテーマに、暮らしのiPhoneアプリをつくる小さなラボです。もちもの管理「ながもち」、貯蓄率でみる家計簿「正直家計簿」、日用品の価格記録「いつモノ」を開発しています。">
 <meta name="theme-color" content="#F97316">
 
 <!-- OGP -->
@@ -287,6 +287,37 @@
   }
   .apps-divider{border:none;border-top:1px dashed var(--line);margin:0;}
 
+  /* ===== Apps: フィーチャー以外を並べる小さいカード ===== */
+  .app-more{padding:40px 0 16px;}
+  .more-head{
+    font-family:var(--font-disp);font-size:14px;font-weight:900;letter-spacing:.16em;
+    color:var(--ink-soft);margin:0 0 20px;text-align:center;
+  }
+  .more-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:16px;max-width:720px;margin:0 auto;
+  }
+  .more-card{
+    display:flex;align-items:center;gap:16px;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 22px;transition:.25s;
+  }
+  .more-card:hover{border-color:var(--orange-line);box-shadow:var(--shadow);transform:translateY(-3px);}
+  .more-card .app-icon{width:56px;height:56px;border-radius:14px;box-shadow:0 4px 12px rgba(43,38,34,.14);}
+  .more-body{flex:1 1 auto;min-width:0;}
+  .more-body h3{font-family:var(--font-disp);font-size:19px;font-weight:900;margin:0;line-height:1.4;}
+  .more-body .cat{font-size:12px;color:var(--ink-soft);font-weight:600;display:block;margin-top:2px;letter-spacing:.06em;}
+  .more-body p{font-size:13px;color:var(--ink-soft);margin:8px 0 0;line-height:1.85;}
+  .more-go{flex:0 0 auto;display:inline-block;color:var(--orange);font-weight:900;font-size:18px;transition:.25s;}
+  .more-card:hover .more-go{transform:translateX(3px);}
+  @media(max-width:680px){
+    /* 説明文が伸びてもアイコンがタイトルの横に留まるよう、上揃えにする */
+    .more-card{padding:18px;gap:13px;align-items:flex-start;}
+    .more-card .app-icon{width:48px;height:48px;border-radius:12px;}
+    .more-body h3{font-size:17px;}
+    .more-go{margin-top:14px;}
+  }
+
   /* ===== Devlog (dark) ===== */
   .devlog{
     background:linear-gradient(180deg,#332B24 0%, var(--brown) 100%);
@@ -450,6 +481,7 @@
         </div>
         <div class="app-flags">
           <span class="flag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>データ収集なし</span>
+          <span class="flag"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6 18.4 18.4"/></svg>広告なし</span>
         </div>
         <p class="app-copy">「これ、もう11年使ってるんだ」が、うれしくなる。</p>
         <p class="app-desc">家電、家具、服、ガジェット、アウトドア用品。購入日や価格を記録すると、"どれだけ長く使えているか" がタイムラインで見えてきます。</p>
@@ -463,42 +495,61 @@
         </a>
       </div>
       <div class="app-shots rv rv-d1">
-        <img src="assets/ss/nagamochi-4362.jpg" alt="ながもち：長く使うものが家の必需品になるタイムライン画面" loading="lazy">
-        <img src="assets/ss/nagamochi-4356.jpg" alt="ながもち：キャンプ用品の使用年数タイムライン" loading="lazy">
-        <img src="assets/ss/nagamochi-4360.jpg" alt="ながもち：将来の買い替え出費予測" loading="lazy">
+        <img src="assets/ss/nagamochi-store-1.jpg" alt="ながもち：家電・家具の使用年数を並べた「長く使うわが家の必需品」タイムライン" loading="lazy">
+        <img src="assets/ss/nagamochi-store-3.jpg" alt="ながもち：次の買い替え時期と必要なお金を先読みする将来の出費予測" loading="lazy">
+        <img src="assets/ss/nagamochi-store-4.jpg" alt="ながもち：家電も家具も趣味の道具も、まとめて記録できるタイムライン" loading="lazy">
       </div>
     </div>
 
     <hr class="apps-divider">
 
-    <!-- いつモノ -->
+    <!-- 正直家計簿 -->
     <div class="app-feature flip">
       <div class="app-info rv">
         <div class="app-head">
-          <div class="app-icon"><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/6d/1f/0c/6d1f0c23-a2ff-3f58-b1bd-466f215e62e2/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg" alt="いつモノ アプリアイコン" loading="lazy"></div>
+          <div class="app-icon"><img src="assets/icon-shokake.jpg" alt="正直家計簿 アプリアイコン" loading="lazy"></div>
           <div>
-            <h3>いつモノ</h3>
-            <span class="cat">日用品の価格記録アプリ</span>
+            <h3>正直家計簿</h3>
+            <span class="cat">貯蓄率でみる家計簿アプリ</span>
           </div>
         </div>
         <div class="app-flags">
-          <span class="flag"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>完全無料</span>
+          <span class="flag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>データ収集なし</span>
+          <span class="flag"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6 18.4 18.4"/></svg>広告なし</span>
         </div>
-        <p class="app-copy">いつも買うものの「いつ・いくら」が見えてくる。</p>
-        <p class="app-desc">ガソリン、米、洗剤、コーヒー豆。くり返し買うものの価格と購入タイミングを記録すると、単価の変化や "そろそろ買う時期" がわかります。</p>
+        <p class="app-copy">使ったお金ではなく、残せたお金を見る。</p>
+        <p class="app-desc">手取りのうち、何%を残せたか。円グラフの真ん中に、その月の貯蓄・投資見込みが出ます。固定費とサブスクが手取りの何割を占めているかも、同じ画面で見えてきます。</p>
         <ul class="app-points">
-          <li>単価の推移で、物価の変化を実感</li>
-          <li>年間の出費予測と給油・購入の目安</li>
-          <li>記録はワンタップ、続けやすいシンプル設計</li>
+          <li>手取りを100%とした円グラフで、貯蓄率がひと目でわかる</li>
+          <li>固定費とサブスクを、1月から12月まで見わたせる年間表</li>
+          <li>車検や年払いは「ならして計上」で、その月だけ沈まない</li>
         </ul>
-        <a class="store-badge" href="https://apps.apple.com/jp/app/%E3%81%84%E3%81%A4%E3%83%A2%E3%83%8E/id6780535646" target="_blank" rel="noopener">
+        <a class="store-badge" href="https://apps.apple.com/jp/app/id6802729842" target="_blank" rel="noopener">
           <img src="assets/appstore-badge-ja.svg" alt="App Storeでダウンロード" loading="lazy">
         </a>
       </div>
       <div class="app-shots rv rv-d1">
-        <img src="assets/ss/itsumono-4394.jpg" alt="いつモノ：日用品の最新価格が並ぶホーム画面" loading="lazy">
-        <img src="assets/ss/itsumono-4393.jpg" alt="いつモノ：ガソリンの年間出費予測と価格推移" loading="lazy">
-        <img src="assets/ss/itsumono-4396.jpg" alt="いつモノ：購入記録のタイムライン" loading="lazy">
+        <img src="assets/ss/shokake-3.jpg" alt="正直家計簿：日常消費の記録と、その月の消費ペース" loading="lazy">
+        <img src="assets/ss/shokake-4.jpg" alt="正直家計簿：固定費とサブスクを1年ぶん見わたせる年間表" loading="lazy">
+        <img src="assets/ss/shokake-5.jpg" alt="正直家計簿：手取りに占める貯蓄見込みを示すホームの円グラフ" loading="lazy">
+      </div>
+    </div>
+
+    <hr class="apps-divider">
+
+    <!-- フィーチャー以外 -->
+    <div class="app-more">
+      <h4 class="more-head rv">ほかのアプリ</h4>
+      <div class="more-grid">
+        <a class="more-card rv" href="https://apps.apple.com/jp/app/%E3%81%84%E3%81%A4%E3%83%A2%E3%83%8E/id6780535646" target="_blank" rel="noopener">
+          <div class="app-icon"><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/6d/1f/0c/6d1f0c23-a2ff-3f58-b1bd-466f215e62e2/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg" alt="いつモノ アプリアイコン" loading="lazy"></div>
+          <div class="more-body">
+            <h3>いつモノ</h3>
+            <span class="cat">日用品の価格記録アプリ</span>
+            <p>ガソリン、米、洗剤、コーヒー豆。くり返し買うものの「いつ・いくら」を記録すると、単価の変化や "そろそろ買う時期" がわかります。</p>
+          </div>
+          <span class="more-go" aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
   </div>
