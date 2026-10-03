@@ -101,6 +101,8 @@
   }
   .x-link:hover{border-color:var(--ink);}
   .x-link svg{width:15px;height:15px;fill:var(--ink);}
+  /* 幅が足りない中間サイズでは「コラム」だけ隠す（フッターから辿れる） */
+  @media(max-width:760px){nav.menu a.nav-column{display:none;}}
   @media(max-width:680px){
     nav.menu a{display:none;}
     nav.menu a.nav-apps{display:inline-block;}
@@ -355,6 +357,20 @@
     border:1px solid rgba(255,255,255,.12);
   }
 
+  /* ===== Column & Tools：読みもの・試算ツールの一覧 ===== */
+  .column{background:var(--bg-warm);padding:96px 0;}
+  .column .more-grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));}
+  .tool-icon{
+    flex:0 0 auto;width:56px;height:56px;border-radius:14px;background:var(--orange-soft);
+    display:grid;place-items:center;
+  }
+  .tool-icon svg{width:28px;height:28px;fill:none;stroke:var(--orange-deep);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .more-body .more-link{display:inline-block;margin-top:10px;font-size:13px;font-weight:700;color:var(--orange-deep);}
+  @media(max-width:680px){
+    .column{padding:72px 0;}
+    .tool-icon{width:48px;height:48px;border-radius:12px;}
+  }
+
   /* ===== Vision ===== */
   .vision{
     padding:120px 0;text-align:center;position:relative;overflow:hidden;
@@ -439,6 +455,7 @@
       <a href="#apps" class="nav-apps">アプリ</a>
       <a href="#story">想い</a>
       <a href="#devlog">開発者のかたへ</a>
+      <a href="#column" class="nav-column">コラム</a>
       <a href="#about">ラボについて</a>
       <a class="x-link" href="https://x.com/Nagamochilab" target="_blank" rel="noopener" aria-label="X (旧Twitter)">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -490,7 +507,7 @@
           <li>買い替え履歴と、将来の出費予測</li>
           <li>趣味の道具や家電ごとに、自由なグループ分け</li>
         </ul>
-        <a class="store-badge" href="https://apps.apple.com/ja/app/%E3%81%AA%E3%81%8C%E3%82%82%E3%81%A1/id6769751136" target="_blank" rel="noopener">
+        <a class="store-badge" href="https://apps.apple.com/ja/app/%E3%81%AA%E3%81%8C%E3%82%82%E3%81%A1/id6769751136" target="_blank" rel="noopener" data-goatcounter-click="appstore-nagamochi" data-goatcounter-title="App Store：ながもち">
           <img src="assets/appstore-badge-ja.svg" alt="App Storeでダウンロード" loading="lazy">
         </a>
       </div>
@@ -524,7 +541,7 @@
           <li>固定費とサブスクを、1月から12月まで見わたせる年間表</li>
           <li>車検や年払いは「ならして計上」で、その月だけ沈まない</li>
         </ul>
-        <a class="store-badge" href="https://apps.apple.com/jp/app/id6802729842" target="_blank" rel="noopener">
+        <a class="store-badge" href="https://apps.apple.com/jp/app/id6802729842" target="_blank" rel="noopener" data-goatcounter-click="appstore-shokake" data-goatcounter-title="App Store：正直家計簿">
           <img src="assets/appstore-badge-ja.svg" alt="App Storeでダウンロード" loading="lazy">
         </a>
       </div>
@@ -541,7 +558,7 @@
     <div class="app-more">
       <h4 class="more-head rv">ほかのアプリ</h4>
       <div class="more-grid">
-        <a class="more-card rv" href="https://apps.apple.com/jp/app/%E3%81%84%E3%81%A4%E3%83%A2%E3%83%8E/id6780535646" target="_blank" rel="noopener">
+        <a class="more-card rv" href="https://apps.apple.com/jp/app/%E3%81%84%E3%81%A4%E3%83%A2%E3%83%8E/id6780535646" target="_blank" rel="noopener" data-goatcounter-click="appstore-itsumono" data-goatcounter-title="App Store：いつモノ">
           <div class="app-icon"><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/6d/1f/0c/6d1f0c23-a2ff-3f58-b1bd-466f215e62e2/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg" alt="いつモノ アプリアイコン" loading="lazy"></div>
           <div class="more-body">
             <h3>いつモノ</h3>
@@ -616,13 +633,36 @@
           <li>進捗・バージョン・リリースをまとめて記録</li>
           <li>続けた日数が見えて、開発が習慣になる</li>
         </ul>
-        <a class="store-badge" href="https://apps.apple.com/jp/app/id6781782548" target="_blank" rel="noopener">
+        <a class="store-badge" href="https://apps.apple.com/jp/app/id6781782548" target="_blank" rel="noopener" data-goatcounter-click="appstore-devlog" data-goatcounter-title="App Store：デブログ">
           <img src="assets/appstore-badge-ja-white.svg" alt="App Storeでダウンロード" loading="lazy">
         </a>
       </div>
       <div class="devlog-shot rv rv-d1">
         <img src="assets/ss/devlog-4385.jpg" alt="デブログ：複数アプリのリリース履歴を見わたせるホーム画面" loading="lazy">
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Column & Tools ============ -->
+<section id="column" class="column">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Column &amp; Tools</div>
+      <h2>コラム・ツール</h2>
+      <p>暮らしのお金と時間を、ちょっと確かめるための読みものと道具。</p>
+    </div>
+    <div class="more-grid">
+      <a class="more-card rv" href="/fuel-map/" data-goatcounter-click="top-to-fuelmap" data-goatcounter-title="トップ→コストコ給油マップ">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div>
+        <div class="more-body">
+          <h3>コストコ給油マップ</h3>
+          <span class="cat">試算ツール（コストコ非公式）</span>
+          <p>コストコまで給油に行くと、往復のガソリン代を含めてもおトク？給油量と車の燃費から、もとが取れる範囲を地図で確認できます。</p>
+          <span class="more-link">マップを開く</span>
+        </div>
+        <span class="more-go" aria-hidden="true">→</span>
+      </a>
     </div>
   </div>
 </section>
@@ -678,10 +718,12 @@
       <a href="#apps">アプリ</a>
       <a href="#story">想い</a>
       <a href="#devlog">開発者のかたへ</a>
+      <a href="#column">コラム・ツール</a>
       <a href="#about">ラボについて</a>
       <a href="https://x.com/Nagamochilab" target="_blank" rel="noopener">X</a>
     </nav>
     <div class="copy">© 2026 ながもちラボ（NAGAMOCHI LAB）｜nagamochi-lab.com</div>
+    <div class="copy">アクセス数の計測に、Cookieを使わない <a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a> を利用しています。</div>
   </div>
 </footer>
 
@@ -713,6 +755,9 @@
   targets.forEach(function(el){ io.observe(el); });
 })();
 </script>
+
+<!-- アクセス計測（GoatCounter：Cookieなし。localhostでは計測されない） -->
+<script data-goatcounter="https://nagamochilab.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 
 </body>
 </html>
