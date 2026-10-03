@@ -25,12 +25,12 @@ function render(){
  $('price-link').textContent=`gogo.gsで${s.name}の価格を${s.id==='shinmisato'?'確認':'探す'} ↗`;
  document.querySelectorAll('[data-fuel]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fuel===fuel)));
  $('mode-road').setAttribute('aria-pressed',String(mode==='road'));$('mode-circle').setAttribute('aria-pressed',String(mode==='circle'));
- $('distance-caption').textContent=(roadsReady||shapeVisible)?'道路距離・片道':'円の半径';
+ $('distance-caption').textContent=(roadsReady||shapeVisible)?'道路距離・片道':'直線距離の目安';
  data.forEach((r,i)=>{const b=legend.children[i];b.setAttribute('aria-pressed',String(selected===r.difference));b.querySelector('.distance').textContent=`${((roadsReady||shapeVisible)?r.roadKm:r.radiusKm).toFixed(1)}km`;if(map){circles[i].setLatLng([s.lat,s.lng]).setRadius(r.radiusKm*1000).setStyle({weight:selected===r.difference?2.5:1.5,fillOpacity:.025,dashArray:mode==='road'?'5 5':null});labels[i].setLatLng(destination(s.lat,s.lng,r.radiusKm,55+i*5)).setContent(`${r.difference}円`);if(shapeVisible){map.removeLayer(circles[i]);map.removeLayer(labels[i])}else{if(!map.hasLayer(circles[i]))circles[i].addTo(map);if(!map.hasLayer(labels[i]))labels[i].addTo(map)}}});
  if(roadLayer){if(shapeVisible){if(!map.hasLayer(roadLayer))roadLayer.addTo(map);roadLayer.setStyle(f=>roadStyle(f))}else map.removeLayer(roadLayer)}
  const active=data.find(r=>r.difference===selected);$('result-copy').innerHTML=`<b>${selected}円/L安い</b>とき<br>給油で浮くお金`;$('saving').innerHTML=`${active.saving.toLocaleString()}<small>円</small>`;
- $('map-badge').textContent=roadsReady?'道路距離で計算 · 片道':shapeVisible?'道路距離を更新中':mode==='circle'?'概算の円':busy?'道路を計算中 · 円は参考':'円の目安を表示中';
- $('map-note').textContent=(roadsReady||shapeVisible)?'色の内側が目安です。コストコへの片道の道路距離から、帰りも同じ距離として試算しています。通行料金は含みません。':`円は道路の迂回を${state.factor}倍と仮定した目安です。実際の道順や川・橋は反映していません。`;
+ $('map-badge').textContent=roadsReady?'道路距離で計算 · 片道':shapeVisible?'道路距離を更新中':mode==='circle'?'直線距離の目安':busy?'道路を計算中 · 直線は参考':'直線距離の目安を表示中';
+ $('map-note').textContent=(roadsReady||shapeVisible)?'色の内側が目安です。コストコへの片道の道路距離から、帰りも同じ距離として試算しています。通行料金は含みません。':`直線距離は、道路の遠回りを${state.factor}倍と仮定した目安です。実際の道順や川・橋は反映していません。`;
  if(marker)marker.setLatLng([s.lat,s.lng]).setTooltipContent(`コストコ ${s.name}`);
  $('update-road').hidden=mode!=='road'||roadsReady||busy;$('update-road').disabled=busy;
  return data;
@@ -49,11 +49,11 @@ async function updateRoads(){
   const collection={...data,features:[...data.features].sort((a,b)=>b.properties.difference-a.properties.difference)};
   if(roadLayer){roadLayer.clearLayers();roadLayer.addData(collection)}
   else roadLayer=L.geoJSON(collection,{style:roadStyle,onEachFeature:(feature,layer)=>layer.bindTooltip(`${feature.properties.difference}円/L安い場合 · 片道約${feature.properties.requestedKm.toFixed(1)}km`)}).addTo(map);
-  if(id===requestNumber)$('road-message').textContent=`スライダーを動かすと、範囲も変わります（約${data.resolutionMeters}mの格子から推計）。`;
+  if(id===requestNumber)$('road-message').textContent='';
   render();
  }catch(e){
   if(id!==requestNumber||e.name==='AbortError')return;
-  loadedKey='';loadedStation='';$('road-message').textContent=e.message+' 円の目安を表示しています。';
+  loadedKey='';loadedStation='';$('road-message').textContent=e.message+' 直線距離の目安を表示しています。';
  }finally{if(id===requestNumber){busy=false;render();if(fitAfterRoad){fitAfterRoad=false;fit()}}}
 }
 for(const k of ['liters','efficiency','price','factor'])$(k).addEventListener('input',()=>{if(!$(k).validity.valid||$(k).value==='')return;state[k]=Number($(k).value);if(k==='price'){manualPrices[fuel]=state.price;$('price-status').textContent='入力した単価で計算します。実売価格は店舗でご確認ください。'}if(k!=='factor'){invalidate();scheduleRoads()}else render()});
@@ -71,6 +71,10 @@ $('locate').onclick=()=>{
  navigator.geolocation.getCurrentPosition(position=>{locationPending=false;$('locate').disabled=false;const {latitude,longitude,accuracy}=position.coords;if(locationMarker)map.removeLayer(locationMarker);if(accuracyCircle)map.removeLayer(accuracyCircle);locationMarker=L.marker([latitude,longitude],{icon:L.divIcon({className:'user-dot',iconSize:[16,16],iconAnchor:[8,8]})}).addTo(map).bindTooltip('現在地');accuracyCircle=L.circle([latitude,longitude],{radius:accuracy,color:'#387fe2',weight:1,fillOpacity:.07,interactive:false}).addTo(map);$('locate').setAttribute('aria-pressed','true');map.fitBounds(L.latLngBounds([[latitude,longitude],[getStation().lat,getStation().lng]]).pad(.2),{maxZoom:14,animate:false});$('location-message').textContent=`現在地を表示しました（測位精度 約${Math.round(accuracy).toLocaleString()}m）。位置は保存・共有しません。`;},error=>{locationPending=false;$('locate').disabled=false;const messages={1:'現在地の利用が許可されていません。利用する場合はブラウザのサイト設定をご確認ください。',2:'現在地を取得できませんでした。電波の届く場所でお試しください。',3:'現在地の取得が時間内に終わりませんでした。もう一度お試しください。'};$('location-message').textContent=messages[error.code]||'現在地を取得できませんでした。';},{enableHighAccuracy:false,timeout:12000,maximumAge:60000});
 };
 let toastTimer;function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),4000)}
-$('share').onclick=async()=>{const u=new URL(location.href);u.search='';u.hash='';for(const[k,v]of Object.entries({...state,fuel,mode,selected}))u.searchParams.set(k,String(v));try{if(navigator.share)await navigator.share({title:'コストコ給油マップ',text:`コストコ${getStation().name}まで給油に行くと、もとが取れる？`,url:u.href});else if(navigator.clipboard){await navigator.clipboard.writeText(u.href);toast('条件付きのURLをコピーしました')}else window.prompt('URLをコピーしてください',u.href)}catch(e){if(e.name!=='AbortError')window.prompt('URLをコピーしてください',u.href)}};
+// 今の条件を復元できる共有URL（現在地は含めない）
+function shareUrl(){const u=new URL(location.href);u.search='';u.hash='';for(const[k,v]of Object.entries({...state,fuel,mode,selected}))u.searchParams.set(k,String(v));return u}
+// Xの投稿画面を、選んだ店舗・条件・片道の上限つきで開く
+$('share-x').onclick=()=>{const s=getStation(),r=rows().find(r=>r.difference===selected);const text=`コストコ${s.name}まで給油に行くと、もとが取れる？\n給油${state.liters}L・燃費${state.efficiency}km/Lなら、近所より${selected}円/L安いとき片道約${r.roadKm.toFixed(1)}kmまで元が取れる計算でした。\n#コストコ給油元取りマップ`;const intent=new URL('https://x.com/intent/post');intent.searchParams.set('text',text);intent.searchParams.set('url',shareUrl().href);window.open(intent.href,'_blank','noopener')};
+$('share').onclick=async()=>{const u=shareUrl();try{if(navigator.share)await navigator.share({title:'コストコ給油元取りマップ',text:`コストコ${getStation().name}まで給油に行くと、もとが取れる？`,url:u.href});else if(navigator.clipboard){await navigator.clipboard.writeText(u.href);toast('条件付きのURLをコピーしました')}else window.prompt('URLをコピーしてください',u.href)}catch(e){if(e.name!=='AbortError')window.prompt('URLをコピーしてください',u.href)}};
 render();fit();if(mode==='road'){fitAfterRoad=true;updateRoads()}
 if(document.modelContext?.registerTool){const lifecycle=new AbortController();window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});try{Promise.resolve(document.modelContext.registerTool({name:'configure_fuel_estimate',title:'給油の試算条件を変更',description:'給油量・燃費・単価を変更します。道路範囲も自動で更新します。',inputSchema:{type:'object',properties:{liters:{type:'integer',minimum:10,maximum:70,multipleOf:1},efficiency:{type:'number',minimum:5,maximum:30,multipleOf:0.1},price:{type:'integer',minimum:50,maximum:400}},required:['liters','efficiency','price'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute(input){if(!input||Object.keys(input).some(k=>!['liters','efficiency','price'].includes(k))||!Number.isInteger(input.liters)||input.liters<10||input.liters>70||!Number.isFinite(input.efficiency)||Math.abs(input.efficiency*10-Math.round(input.efficiency*10))>1e-6||input.efficiency<5||input.efficiency>30||!Number.isInteger(input.price)||input.price<50||input.price>400)throw new Error('入力範囲を確認してください');Object.assign(state,input);for(const k of Object.keys(input))$(k).value=input[k];manualPrices[fuel]=state.price;invalidate();scheduleRoads();if(mode==='circle')fit();return {conditions:{...state,fuel},ranges:rows()};}},{signal:lifecycle.signal})).catch(()=>{})}catch{}}

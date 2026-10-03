@@ -199,3 +199,10 @@ window.FUEL_STATIONS.push(...[
     "source": "https://mapfan.com/spots/SC5AQ,F6KK,Q0"
   }
 ]);
+
+// 選択肢は北から順（都道府県コード順、同じ県内も北から）。初期店舗は app.js 側で新三郷
+(function(){
+  const order=['ishikari','tomiya','kaminoyama','tsukuba','mibu','maebashi','meiwa','shinmisato','chiba','kisarazu','imizu','nonoichi','minami-alps','hashima','hamamatsu','moriyama','chubu','higashiomi','yawata','kadoma','izumi','amagasaki','kitakyushu','hisayama','ogori','mifune','nanjo'];
+  const rank=id=>{const i=order.indexOf(id);return i<0?order.length:i};
+  window.FUEL_STATIONS.sort((a,b)=>rank(a.id)-rank(b.id));
+})();

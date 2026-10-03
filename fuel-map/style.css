@@ -15,4 +15,22 @@ main{max-width:1184px;margin:auto;padding:24px 32px 28px}.intro{margin-bottom:30
 .range-title output{flex-shrink:0}
 /* ページ下：ホームへの控えめな案内 */
 .home-link{margin:34px 0 4px;padding:24px 16px 8px;border-top:1px solid var(--line);text-align:center}.home-link p{margin:0 0 14px;font-size:13px;color:var(--muted);line-height:1.8}.home-link .nb{display:inline-block}.home-btn{display:inline-block;padding:11px 26px;border:1.5px solid var(--orange);border-radius:999px;color:var(--accent);font-weight:700;font-size:14px;text-decoration:none;transition:.2s}.home-btn:hover{background:var(--soft)}
+/* ヘッダーのロゴ：トップページと同じ「年輪マーク＋文字」の組み方 */
+.brand{gap:10px}.brand img{width:40px;height:40px;display:block}
+.brand .lt{font-family:var(--display);font-weight:900;font-size:17px;line-height:1;color:var(--ink);display:flex;flex-direction:column;letter-spacing:.05em}
+.brand .lt small{font-family:var(--font);font-size:8px;font-weight:700;letter-spacing:.22em;color:var(--muted);margin-top:4px}
+/* 共有ボタンの横にXボタン */
+.header-actions{display:flex;align-items:center;gap:8px}
+.share-x{width:44px;padding:0;justify-content:center}
+.share-x svg{width:16px;height:16px;fill:var(--ink);stroke:none}
+/* 題名の下の「非公式」バッジ */
+.unofficial{display:inline-block;margin:0 0 14px;padding:2px 11px;border:1px solid #fcdec7;border-radius:999px;background:var(--soft);color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.08em}
+/* 価格差ボタンの数字：縦長の丸ゴシックではなく、本文と同じゴシックの太字 */
+.legend b{font-family:var(--font);font-weight:700;letter-spacing:-.01em}
+@media(max-width:850px){
+ /* スマホは地図を正方形に（幅はそのまま） */
+ .map-wrap{height:auto;aspect-ratio:1/1;min-height:0;max-height:none}
+ .share-x{width:40px;padding:0}
+}
+@media(max-width:680px){.brand img{width:34px;height:34px}.brand .lt{font-size:15px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
