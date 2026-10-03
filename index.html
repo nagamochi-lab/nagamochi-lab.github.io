@@ -6,6 +6,8 @@
 <title>ながもちラボ｜暮らしを記録して、ものと時間を大切にする</title>
 <meta name="description" content="ながもちラボは「買う・持つ・使い続ける・整える」をテーマに、暮らしのiPhoneアプリをつくる小さなラボです。もちもの管理「ながもち」、貯蓄率でみる家計簿「正直家計簿」、日用品の価格記録「いつモノ」を開発しています。">
 <meta name="theme-color" content="#F97316">
+<!-- iPhoneのSafariで上部に「ながもち」のApp Storeバナーを出す -->
+<meta name="apple-itunes-app" content="app-id=6769751136">
 
 <!-- OGP -->
 <meta property="og:type" content="website">
@@ -531,7 +533,9 @@
           </div>
         </div>
         <div class="app-flags">
-          <span class="flag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>データ収集なし</span>
+          <!-- 「データ収集なし」から変更（2026-10-04）。使い方の統計を送るようになったので、
+               言い切りのままだとプライバシーポリシーと食い違う。金額を送らないのは変わらない -->
+          <span class="flag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>家計データの収集なし</span>
           <span class="flag"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6 18.4 18.4"/></svg>広告なし</span>
         </div>
         <p class="app-copy">使ったお金ではなく、残せたお金を見る。</p>
@@ -720,6 +724,7 @@
       <a href="#devlog">開発者のかたへ</a>
       <a href="#column">コラム・ツール</a>
       <a href="#about">ラボについて</a>
+      <a href="/press/">プレス・メディアの方へ</a>
       <a href="https://x.com/Nagamochilab" target="_blank" rel="noopener">X</a>
     </nav>
     <div class="copy">© 2026 ながもちラボ（NAGAMOCHI LAB）｜nagamochi-lab.com</div>
